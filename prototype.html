@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>原型链</title>
+</head>
+<body>
+	<script type="text/javascript">
+	// 创建对象的几种方法 
+	var o1 = {name:"o1"};
+	var o11 = new Object({name:"o11"});
+
+	var M = function(name){this.name = name;}
+	var o2 = new M('o2');//o2._proto_===M.prototype
+    
+	var P = {name:"o3"};
+	var o3=Object.create(P);//o3._proto_===P
+
+	M.prototype.say = function(){
+		console.log("say");
+	}
+	var o4 = new M('o4')
+
+	var N = function(func){
+		var o = Object.create(func.prototype);//创建空对象，并关联构造函数原型
+		var k = func.call(o);//执行构造函数
+		if(typeof k === Object){//判断返回是否为一个对象
+			return k;
+		}else{
+			return o;
+		}
+
+	}
+	var o5 = new N(M);//o5 instanceof M;//为true    o5 instanceof Object;//为true  o5._proto_.construtor === M;//为true
+
+	</script>
+	
+</body>
+</html>
